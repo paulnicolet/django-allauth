@@ -47,4 +47,5 @@ class AppleProvider(OAuth2Provider):
             scopes.append("email")
         return scopes
 
+
 provider_classes = [AppleProvider]

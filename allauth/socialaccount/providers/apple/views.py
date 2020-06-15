@@ -24,6 +24,7 @@ from .apple_session import add_apple_session, persist_apple_session
 from .client import AppleOAuth2Client
 from .provider import AppleProvider
 
+
 class AppleOAuth2Adapter(OAuth2Adapter):
     client_cls = AppleOAuth2Client
     provider_id = AppleProvider.id
@@ -50,7 +51,8 @@ class AppleOAuth2Adapter(OAuth2Adapter):
         kid = jwt.get_unverified_header(id_token)["kid"]
         apple_public_key = self._get_apple_public_key(kid=kid)
 
-        public_key = jwt.algorithms.RSAAlgorithm.from_jwk(json.dumps(apple_public_key))
+        public_key = jwt.algorithms.RSAAlgorithm.from_jwk(
+            json.dumps(apple_public_key))
         return public_key
 
     def get_client_id(self, provider):
@@ -80,7 +82,7 @@ class AppleOAuth2Adapter(OAuth2Adapter):
         token = SocialToken(
             token=data["access_token"],
         )
-        token.token_secret=data.get("refresh_token", "")
+        token.token_secret = data.get("refresh_token", "")
 
         expires_in = data.get(self.expires_in_key)
         if expires_in:
@@ -131,7 +133,7 @@ class AppleOAuth2Adapter(OAuth2Adapter):
         return {
             **access_token_data,
             **self.get_user_scope_data(request),
-            "id_token":request.apple_login_session.get("id_token")
+            "id_token": request.apple_login_session.get("id_token")
         }
 
 
